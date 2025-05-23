@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Status Sender</title>
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Template Modal -->
+    <div id="templateModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Save as Template</h3>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <label for="templateName">Template Name:</label>
+          <input type="text" id="templateName" placeholder="Enter a name for this template">
+          <div class="modal-buttons">
+            <button id="cancelTemplate" class="cancel-button">Cancel</button>
+            <button id="saveTemplateBtn" class="action-button">Save Template</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Template List Modal -->
+    <div id="templateListModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Your Templates</h3>
+          <span class="close-modal" data-modal="templateListModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="templatesList" class="templates-container">
+            <!-- Templates will be populated here -->
+          </div>
+          <div class="modal-buttons">
+            <button id="closeTemplateList" class="cancel-button">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Webhooks Management Modal -->
+    <div id="webhooksModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Manage Webhooks</h3>
+          <span class="close-modal" data-modal="webhooksModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="add-webhook-form">
+            <h4>Add New Webhook</h4>
+            <input type="text" id="webhookName" placeholder="Recipient Name (e.g. Team Alpha)">
+            <input type="text" id="webhookURL" placeholder="Webhook URL">
+            <div class="form-actions">
+              <button id="addWebhookBtn" class="action-button">Add Webhook</button>
+            </div>
+          </div>
+          <div class="webhooks-list-header">
+            <h4>Your Webhooks</h4>
+          </div>
+          <div id="webhooksList" class="webhooks-container">
+            <!-- Webhooks will be populated here -->
+          </div>
+          <div class="modal-buttons">
+            <button id="closeWebhooksList" class="cancel-button">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Recipient Selection Modal -->
+    <div id="recipientModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Select Recipient</h3>
+          <span class="close-modal" data-modal="recipientModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Choose who you want to send this update to:</p>
+          <div id="recipientsList" class="recipients-container">
+            <!-- Recipients will be populated here -->
+          </div>
+          <div class="modal-buttons">
+            <button id="cancelSend" class="cancel-button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help & Support Modal -->
+    <div id="helpModal" class="modal">
+      <div class="modal-content help-modal-content">
+        <div class="modal-header">
+          <h3>Help & Support</h3>
+          <span class="close-modal" data-modal="helpModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="help-sections">
+            <div class="help-section-item">
+              <h4>Getting Started</h4>
+              <p>Weekly Status Sender helps you send beautifully formatted update messages to Google Chat or other messaging platforms that support webhooks.</p>
+              <ol class="help-steps">
+                <li>Use the rich text editor to compose your update</li>
+                <li>Format your text using the toolbar or keyboard shortcuts</li>
+                <li>Click "Send Update" and choose your recipient</li>
+              </ol>
+            </div>
+            
+            <div class="help-section-item">
+              <h4>Smart Formatting</h4>
+              <ul class="help-tips">
+                <li>Type <strong>"-"</strong> or <strong>"*"</strong> followed by space to create bullet points</li>
+                <li>Use the toolbar to apply bold, italic, and other formatting</li>
+                <li>All formatting is preserved when sent to Google Chat</li>
+              </ul>
+            </div>
+            
+            <div class="help-section-item">
+              <h4>Managing Templates</h4>
+              <p>Save time by creating templates for your regular updates:</p>
+              <ul class="help-tips">
+                <li>Click the save icon to store the current update as a template</li>
+                <li>Access your templates from the Templates menu item</li>
+                <li>Load or delete templates as needed</li>
+              </ul>
+            </div>
+            
+            <div class="help-section-item">
+              <h4>Managing Webhooks</h4>
+              <p>Configure multiple recipients for your updates:</p>
+              <ul class="help-tips">
+                <li>Add webhook URLs from the Webhooks menu</li>
+                <li>Each webhook represents a different chat or channel</li>
+                <li>Choose which recipient to send to when sending updates</li>
+              </ul>
+            </div>
+            
+            <div class="help-section-item">
+              <h4>Contact Support</h4>
+              <p>Need help? We're here for you!</p>
+              <p>Email: <a href="mailto:support@weeklystatussender.com">support@weeklystatussender.com</a></p>
+            </div>
+          </div>
+          <div class="modal-buttons">
+            <button id="closeHelp" class="cancel-button">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sidebar">
+      <div class="logo-container">
+        <div class="logo">WS</div>
+        <h3>Status Sender</h3>
+      </div>
+      <div class="menu">
+        <div class="menu-item active">
+          <span class="icon">📋</span>
+          <span>New Update</span>
+        </div>
+        <div class="menu-item" id="templatesMenuItem">
+          <span class="icon">📚</span>
+          <span>Templates</span>
+        </div>
+        <div class="menu-item" id="webhooksMenuItem">
+          <span class="icon">🔗</span>
+          <span>Webhooks</span>
+        </div>
+      </div>
+      <div class="theme-toggle">
+        <span id="themeIcon" class="icon">🌙</span>
+        <span id="themeText">Dark Mode</span>
+      </div>
+      
+      <div class="help-section" id="helpBtn">
+        <span class="icon">❓</span>
+        <span>Help & Support</span>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1 class="animate__animated animate__fadeIn">Weekly Status Update</h1>
+        <div class="date-display" id="currentDate"></div>
+      </div>
+      
+      <div class="card animate__animated animate__fadeInUp">
+        <div class="editor-section">
+          <div class="editor-header">
+            <span>Compose your update</span>
+            <div class="editor-actions">
+              <button id="clearEditor" class="action-btn" title="Clear editor">
+                <span class="icon">🗑️</span>
+              </button>
+              <button id="saveTemplate" class="action-btn" title="Save as template">
+                <span class="icon">💾</span>
+              </button>
+            </div>
+          </div>
+          
+          <div id="editor-container">
+            <!-- Quill editor will be initialized here -->
+          </div>
+          
+          <div class="tips-container">
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <span class="tip-text">Type "-" or "*" and space to create bullet points automatically</span>
+            </div>
+          </div>
+          
+          <button id="sendButton" class="send-button">
+            <span class="send-icon">📤</span>
+            <span>Send Update</span>
+          </button>
+        </div>
+      </div>
+      
+      <div id="responseStatus" class="status-message"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
