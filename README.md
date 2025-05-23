@@ -2,8 +2,6 @@
 
 A modern web application to create and send beautifully formatted weekly status updates to Google Chat using webhooks.
 
-![Weekly Status Sender](https://via.placeholder.com/800x450.png?text=Weekly+Status+Sender)
-
 ## Setup
 
 1. Add your webhook URLs through the Webhooks menu.
